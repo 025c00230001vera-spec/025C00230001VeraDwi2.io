@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sistem Informasi Rawat Inap - Manajemen Rumah Sakit Digital" />
+  <title>SI Rawat Inap — Manajemen Rumah Sakit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <rect x="2" y="2" width="10" height="10" rx="2" fill="var(--accent)"/>
+          <rect x="16" y="2" width="10" height="10" rx="2" fill="var(--accent)" opacity="0.5"/>
+          <rect x="2" y="16" width="10" height="10" rx="2" fill="var(--accent)" opacity="0.5"/>
+          <rect x="16" y="16" width="10" height="10" rx="2" fill="var(--accent)"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">SI Rawat Inap</span>
+        <span class="brand-sub">Manajemen Rumah Sakit</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <span class="nav-label">MENU UTAMA</span>
+      <a href="#" class="nav-item active" data-section="dashboard" onclick="showSection('dashboard',this)">
+        <svg class="nav-icon" viewBox="0 0 20 20"><rect x="2" y="2" width="7" height="7" rx="1.5"/><rect x="11" y="2" width="7" height="7" rx="1.5"/><rect x="2" y="11" width="7" height="7" rx="1.5"/><rect x="11" y="11" width="7" height="7" rx="1.5"/></svg>
+        Dashboard
+      </a>
+      <a href="#" class="nav-item" data-section="pasien-masuk" onclick="showSection('pasien-masuk',this)">
+        <svg class="nav-icon" viewBox="0 0 20 20"><circle cx="10" cy="6" r="4"/><path d="M3 18c0-4 3-6 7-6s7 2 7 6"/><path d="M14 10v4m-2-2h4" stroke-width="1.5"/></svg>
+        Pasien Masuk
+      </a>
+      <a href="#" class="nav-item" data-section="pasien-keluar" onclick="showSection('pasien-keluar',this)">
+        <svg class="nav-icon" viewBox="0 0 20 20"><circle cx="10" cy="6" r="4"/><path d="M3 18c0-4 3-6 7-6s7 2 7 6"/><path d="M12 10l3 3-3 3" stroke-width="1.5"/></svg>
+        Pasien Keluar
+      </a>
+      <a href="#" class="nav-item" data-section="layanan" onclick="showSection('layanan',this)">
+        <svg class="nav-icon" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16A8 8 0 0010 2zm0 4v4l3 2"/><path d="M7 8h6M7 12h4"/></svg>
+        Biaya Layanan
+      </a>
+      <a href="#" class="nav-item" data-section="laporan" onclick="showSection('laporan',this)">
+        <svg class="nav-icon" viewBox="0 0 20 20"><rect x="3" y="2" width="14" height="16" rx="2"/><path d="M7 7h6M7 10h6M7 13h4"/></svg>
+        Laporan Detail
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="user-avatar">BS</div>
+        <div class="user-info">
+          <span class="user-name">Budi Santoso</span>
+          <span class="user-role">Administrator</span>
+        </div>
+        <div class="user-status"></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== TOPBAR ===== -->
+  <header class="topbar">
+    <button class="menu-toggle" id="menuToggle" onclick="toggleSidebar()" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="topbar-left">
+      <h1 class="page-title" id="pageTitle">Dashboard Analitik</h1>
+      <div class="breadcrumb">
+        <span>Beranda</span>
+        <svg width="12" height="12" viewBox="0 0 12 12"><path d="M4 2l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span id="breadcrumbCurrent">Dashboard</span>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-date" id="topbarDate"></div>
+      <button class="notif-btn" title="Notifikasi">
+        <svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6v3l-1.5 2H17.5L16 11V8a6 6 0 00-6-6z"/><path d="M8 16a2 2 0 004 0"/></svg>
+        <span class="notif-badge">3</span>
+      </button>
+      <button class="theme-toggle" onclick="toggleTheme()" title="Ganti tema" id="themeToggle">
+        <svg width="18" height="18" viewBox="0 0 20 20" id="themeIcon"><path d="M10 3v1M10 16v1M3 10H2M18 10h-1M5.05 5.05l-.71-.71M15.66 15.66l-.71-.71M5.05 14.95l-.71.71M15.66 4.34l-.71.71M13 10a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-content">
+
+    <!-- ======== DASHBOARD SECTION ======== -->
+    <section class="section active" id="section-dashboard">
+      <div class="stat-grid">
+        <div class="stat-card accent-blue" data-delay="0">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-label">Total Pasien</span>
+            <span class="stat-value" id="statTotalPasien">0</span>
+            <span class="stat-trend positive">↑ Aktif bulan ini</span>
+          </div>
+        </div>
+        <div class="stat-card accent-green" data-delay="1">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-label">Total Pendapatan</span>
+            <span class="stat-value" id="statPendapatan">Rp 0</span>
+            <span class="stat-trend positive">↑ Dari transaksi</span>
+          </div>
+        </div>
+        <div class="stat-card accent-orange" data-delay="2">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-label">Pasien Keluar</span>
+            <span class="stat-value" id="statPasienKeluar">0</span>
+            <span class="stat-trend neutral">Total selesai</span>
+          </div>
+        </div>
+        <div class="stat-card accent-purple" data-delay="3">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-label">Rata-rata Lama Inap</span>
+            <span class="stat-value" id="statRataInap">0 hr</span>
+            <span class="stat-trend neutral">Per pasien</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tables Grid -->
+      <div class="tables-grid">
+        <!-- Statistik Pelayanan -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Statistik Pelayanan</span>
+            <span class="card-badge">Query Source 4</span>
+          </div>
+          <div class="table-wrap">
+            <table id="tblLayanan">
+              <thead><tr><th>Nama Pelayanan</th><th>Jumlah Pasien</th><th>Total Pendapatan</th></tr></thead>
+              <tbody id="tbodyLayanan"><tr><td colspan="3" class="empty-state">Belum ada data layanan</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Laporan Rekam Medis -->
+        <div class="card card-full">
+          <div class="card-header">
+            <span class="card-title">Laporan Rekam Medis Lengkap</span>
+            <span class="card-badge">Query Source 6</span>
+          </div>
+          <div class="table-wrap">
+            <table id="tblRekamMedis">
+              <thead><tr><th>Nama Pasien</th><th>Diagnosa</th><th>Masuk</th><th>Keluar</th><th>Lama</th><th>Layanan</th><th>Total</th><th>Operator</th></tr></thead>
+              <tbody id="tbodyRekamMedis"><tr><td colspan="8" class="empty-state">Belum ada data rekam medis</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== PASIEN MASUK SECTION ======== -->
+    <section class="section" id="section-pasien-masuk">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Pendaftaran Pasien Masuk</span>
+          <button class="btn btn-primary" onclick="openModal('modalPasienMasuk')">
+            <svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 2v12M2 8h12"/></svg>
+            Tambah Pasien
+          </button>
+        </div>
+        <div class="search-bar">
+          <svg class="search-icon" viewBox="0 0 20 20"><circle cx="9" cy="9" r="6"/><path d="M15 15l-3.5-3.5"/></svg>
+          <input type="text" class="search-input" id="searchPasienMasuk" placeholder="Cari pasien..." oninput="filterTable('tbodyPasienMasuk', this.value)" />
+        </div>
+        <div class="table-wrap">
+          <table id="tblPasienMasuk">
+            <thead><tr><th>No Reg</th><th>Nama</th><th>Umur/Sex</th><th>Diagnosa</th><th>Tgl Masuk</th><th>Penjamin</th><th>Aksi</th></tr></thead>
+            <tbody id="tbodyPasienMasuk"><tr><td colspan="7" class="empty-state">Belum ada data pasien masuk</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== PASIEN KELUAR SECTION ======== -->
+    <section class="section" id="section-pasien-keluar">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Transaksi Pasien Keluar</span>
+          <button class="btn btn-primary" onclick="openModal('modalPasienKeluar')">
+            <svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 2v12M2 8h12"/></svg>
+            Tambah Data Keluar
+          </button>
+        </div>
+        <div class="search-bar">
+          <svg class="search-icon" viewBox="0 0 20 20"><circle cx="9" cy="9" r="6"/><path d="M15 15l-3.5-3.5"/></svg>
+          <input type="text" class="search-input" id="searchPasienKeluar" placeholder="Cari transaksi..." oninput="filterTable('tbodyPasienKeluar', this.value)" />
+        </div>
+        <div class="table-wrap">
+          <table id="tblPasienKeluar">
+            <thead><tr><th>Kode Keluar</th><th>No Reg</th><th>Tgl Keluar</th><th>Lama Inap</th><th>Total Biaya</th><th>Aksi</th></tr></thead>
+            <tbody id="tbodyPasienKeluar"><tr><td colspan="6" class="empty-state">Belum ada data pasien keluar</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== LAYANAN SECTION ======== -->
+    <section class="section" id="section-layanan">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Master Biaya Pelayanan</span>
+          <button class="btn btn-primary" onclick="openModal('modalLayanan')">
+            <svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 2v12M2 8h12"/></svg>
+            Tambah Layanan
+          </button>
+        </div>
+        <div class="table-wrap">
+          <table id="tblBiayaLayanan">
+            <thead><tr><th>Kode</th><th>Nama Layanan</th><th>Biaya</th><th>Keterangan</th><th>Aksi</th></tr></thead>
+            <tbody id="tbodyBiayaLayanan"><tr><td colspan="5" class="empty-state">Belum ada data layanan</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== LAPORAN SECTION ======== -->
+    <section class="section" id="section-laporan">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Laporan Detail Rekam Medis</span>
+          <button class="btn btn-outline" onclick="printLaporan()">
+            <svg width="16" height="16" viewBox="0 0 16 16"><rect x="3" y="1" width="10" height="14" rx="1"/><path d="M5 5h6M5 8h6M5 11h4"/></svg>
+            Cetak Laporan
+          </button>
+        </div>
+        <div class="filter-bar">
+          <div class="filter-group">
+            <label class="filter-label">Dari Tanggal</label>
+            <input type="date" class="filter-input" id="filterDari" />
+          </div>
+          <div class="filter-group">
+            <label class="filter-label">Sampai Tanggal</label>
+            <input type="date" class="filter-input" id="filterSampai" />
+          </div>
+          <button class="btn btn-primary" onclick="filterLaporan()">Filter</button>
+        </div>
+        <div class="table-wrap">
+          <table id="tblLaporan">
+            <thead><tr><th>Nama Pasien</th><th>Diagnosa</th><th>Masuk</th><th>Keluar</th><th>Lama</th><th>Layanan</th><th>Total</th><th>Operator</th></tr></thead>
+            <tbody id="tbodyLaporan"><tr><td colspan="8" class="empty-state">Belum ada data laporan</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== MODAL: PASIEN MASUK ===== -->
+  <div class="modal-overlay" id="modalPasienMasuk">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Form Pasien Masuk</h2>
+        <button class="modal-close" onclick="closeModal('modalPasienMasuk')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="formPasienMasuk" autocomplete="off" onsubmit="submitPasienMasuk(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">No. Registrasi <span class="required">*</span></label>
+              <input type="text" class="form-control" id="pmNoReg" placeholder="REG-001" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nama Lengkap <span class="required">*</span></label>
+              <input type="text" class="form-control" id="pmNama" placeholder="Nama pasien" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Umur <span class="required">*</span></label>
+              <input type="number" class="form-control" id="pmUmur" placeholder="0" min="0" max="150" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Jenis Kelamin <span class="required">*</span></label>
+              <select class="form-control" id="pmSex" required>
+                <option value="">-- Pilih --</option>
+                <option value="L">Laki-laki</option>
+                <option value="P">Perempuan</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Diagnosa <span class="required">*</span></label>
+            <textarea class="form-control" id="pmDiagnosa" rows="2" placeholder="Tulis diagnosa..." required></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Tanggal Masuk <span class="required">*</span></label>
+              <input type="date" class="form-control" id="pmTglMasuk" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Penjamin <span class="required">*</span></label>
+              <select class="form-control" id="pmPenjamin" required>
+                <option value="">-- Pilih --</option>
+                <option value="Umum">Umum</option>
+                <option value="BPJS">BPJS</option>
+                <option value="Asuransi">Asuransi</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline" onclick="closeModal('modalPasienMasuk')">Batal</button>
+            <button type="submit" class="btn btn-primary">Simpan Data</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: PASIEN KELUAR ===== -->
+  <div class="modal-overlay" id="modalPasienKeluar">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Form Pasien Keluar</h2>
+        <button class="modal-close" onclick="closeModal('modalPasienKeluar')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="formPasienKeluar" autocomplete="off" onsubmit="submitPasienKeluar(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Kode Keluar <span class="required">*</span></label>
+              <input type="text" class="form-control" id="pkKode" placeholder="KEL-001" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">No. Registrasi <span class="required">*</span></label>
+              <input type="text" class="form-control" id="pkNoReg" placeholder="REG-001" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Tanggal Keluar <span class="required">*</span></label>
+              <input type="date" class="form-control" id="pkTglKeluar" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Lama Inap (hari) <span class="required">*</span></label>
+              <input type="number" class="form-control" id="pkLamaInap" placeholder="0" min="0" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Total Biaya (Rp) <span class="required">*</span></label>
+            <input type="number" class="form-control" id="pkTotalBiaya" placeholder="0" min="0" required />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline" onclick="closeModal('modalPasienKeluar')">Batal</button>
+            <button type="submit" class="btn btn-primary">Simpan Data</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: LAYANAN ===== -->
+  <div class="modal-overlay" id="modalLayanan">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Form Biaya Layanan</h2>
+        <button class="modal-close" onclick="closeModal('modalLayanan')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="formLayanan" autocomplete="off" onsubmit="submitLayanan(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Kode Layanan <span class="required">*</span></label>
+              <input type="text" class="form-control" id="lKode" placeholder="LAY-001" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nama Layanan <span class="required">*</span></label>
+              <input type="text" class="form-control" id="lNama" placeholder="Nama layanan" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Biaya (Rp) <span class="required">*</span></label>
+            <input type="number" class="form-control" id="lBiaya" placeholder="0" min="0" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Keterangan</label>
+            <textarea class="form-control" id="lKeterangan" rows="2" placeholder="Deskripsi layanan..."></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline" onclick="closeModal('modalLayanan')">Batal</button>
+            <button type="submit" class="btn btn-primary">Simpan Data</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TOAST NOTIFICATION ===== -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ===== OVERLAY for mobile sidebar ===== -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
